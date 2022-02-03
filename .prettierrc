@@ -1,0 +1,11 @@
+{
+ "printWidth": 100,
+ "singleQuote": true,
+ "useTabs": false,
+ "tabWidth": 2,
+ "semi": true,
+ "bracketSpacing": true,
+ "editor.formatOnSave": true,
+ "quoteProps": "consistent",
+ "trailingComma": "es5"
+}
