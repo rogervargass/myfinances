@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import * as Yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 import { Alert, Keyboard, Modal, TouchableWithoutFeedback } from 'react-native';
 import { Button } from '../../components/Form/Button';
 import { CategorySelectButton } from '../../components/Form/CategorySelectButton';
@@ -14,6 +16,13 @@ export type FormData = {
   [name: string]: any;
 };
 
+const schema = Yup.object().shape({
+  name: Yup.string().required('Nome é obrigatório'),
+  amount: Yup.number()
+    .typeError('Informe um valor númerico')
+    .positive('O valor não pode ser negativo'),
+});
+
 export function Register() {
   const [transactionType, setTransactionType] = useState('');
   const [categoryModalOpen, setCategoryModalOpen] = useState(false);
@@ -23,7 +32,11 @@ export function Register() {
     name: 'Categoria',
   });
 
-  const { control, handleSubmit } = useForm();
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ resolver: yupResolver(schema) });
 
   function handleTransactionsTypeSelect(type: 'up' | 'down') {
     setTransactionType(type);
@@ -70,8 +83,15 @@ export function Register() {
               placeholder="Nome"
               autoCapitalize="sentences"
               autoCorrect={false}
+              error={errors.name && errors.name.message}
             />
-            <InputForm name="amount" control={control} placeholder="Preço" keyboardType="numeric" />
+            <InputForm
+              name="amount"
+              control={control}
+              placeholder="Preço"
+              keyboardType="numeric"
+              error={errors.amount && errors.amount.message}
+            />
 
             <TransactionTypes>
               <TransactionTypeButton
