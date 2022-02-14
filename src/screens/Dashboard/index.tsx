@@ -1,4 +1,5 @@
 import React from 'react';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { HighlightCard } from '../../components/HighlightCard';
 import { TransactionCard, TransactionCardProps } from '../../components/TransactionCard';
 
@@ -16,6 +17,7 @@ import {
   Transactions,
   Title,
   TransactionList,
+  LogoutButton,
 } from './styles';
 
 export interface DataListProps extends TransactionCardProps {
@@ -61,7 +63,11 @@ export function Dashboard() {
               <UserName>Roger</UserName>
             </User>
           </UserInfo>
-          <Icon name="power" />
+          <GestureHandlerRootView>
+            <LogoutButton onPress={() => {}}>
+              <Icon name="power" />
+            </LogoutButton>
+          </GestureHandlerRootView>
         </UserWrapper>
       </Header>
 

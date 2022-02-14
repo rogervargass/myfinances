@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Alert, Keyboard, Modal, TouchableWithoutFeedback } from 'react-native';
+import { Alert, Keyboard, Modal } from 'react-native';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { Button } from '../../components/Form/Button';
 import { CategorySelectButton } from '../../components/Form/CategorySelectButton';
 import { InputForm } from '../../components/Form/InputForm';
@@ -11,6 +12,7 @@ import { TransactionTypeButton } from '../../components/Form/TransactionTypeButt
 import { CategorySelect } from '../CategorySelect';
 
 import { Container, Header, Title, Form, Fields, TransactionTypes } from './styles';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 export type FormData = {
   [name: string]: any;
@@ -69,7 +71,11 @@ export function Register() {
   }
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+    <TouchableWithoutFeedback
+      onPress={Keyboard.dismiss}
+      containerStyle={{ flex: 1 }}
+      style={{ flex: 1 }}
+    >
       <Container>
         <Header>
           <Title>Cadastro</Title>
