@@ -1,3 +1,7 @@
+import 'react-native-gesture-handler';
+import 'intl';
+import 'intl/locale-data/jsonp/pt-BR';
+
 import React from 'react';
 import AppLoading from 'expo-app-loading';
 import { ThemeProvider } from 'styled-components';
@@ -12,6 +16,7 @@ import {
 } from '@expo-google-fonts/poppins';
 
 import theme from './src/global/styles/theme';
+import { LogBox } from 'react-native';
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -23,6 +28,10 @@ export default function App() {
   if (!fontsLoaded) {
     return <AppLoading />;
   }
+
+  LogBox.ignoreLogs([
+    "[react-native-gesture-handler] Seems like you're using an old API with gesture components, check out new Gestures system!",
+  ]);
 
   return (
     <ThemeProvider theme={theme}>
