@@ -36,8 +36,8 @@ export function Dashboard() {
 
     const transactions = response ? JSON.parse(response) : [];
 
-    const transactionsFormatted: DataListProps[] = transactions
-      .map((transaction: DataListProps) => {
+    const transactionsFormatted: DataListProps[] = transactions.map(
+      (transaction: DataListProps) => {
         const amount = Number(transaction.amount).toLocaleString('pt-BR', {
           style: 'currency',
           currency: 'BRL',
@@ -57,8 +57,8 @@ export function Dashboard() {
           category: transaction.category,
           date,
         };
-      })
-      .reverse();
+      }
+    );
 
     setData(transactionsFormatted);
   }
