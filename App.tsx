@@ -9,6 +9,10 @@ import { ThemeProvider } from 'styled-components';
 import { NavigationContainer } from '@react-navigation/native';
 import { AppRoutes } from './src/routes/app.routes';
 
+import { SignIn } from './src/screens/SignIn';
+
+import { AuthContext } from './src/AuthContext';
+
 import {
   useFonts,
   Poppins_400Regular,
@@ -39,9 +43,12 @@ export default function App() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <ThemeProvider theme={theme}>
         <NavigationContainer>
-          <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
           {/* backgroundColor="transparent" translucent necessarios para funcionar no android */}
-          <AppRoutes />
+          <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
+
+          <AuthContext.Provider value={[]}>
+            <SignIn />
+          </AuthContext.Provider>
         </NavigationContainer>
       </ThemeProvider>
     </GestureHandlerRootView>
