@@ -11,7 +11,7 @@ import { AppRoutes } from './src/routes/app.routes';
 
 import { SignIn } from './src/screens/SignIn';
 
-import { AuthContext } from './src/AuthContext';
+import { AuthProvider } from './src/hooks/auth';
 
 import {
   useFonts,
@@ -46,9 +46,9 @@ export default function App() {
           {/* backgroundColor="transparent" translucent necessarios para funcionar no android */}
           <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
 
-          <AuthContext.Provider value={[]}>
+          <AuthProvider>
             <SignIn />
-          </AuthContext.Provider>
+          </AuthProvider>
         </NavigationContainer>
       </ThemeProvider>
     </GestureHandlerRootView>
