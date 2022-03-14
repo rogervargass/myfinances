@@ -6,7 +6,7 @@ import React from 'react';
 import { StatusBar } from 'react-native';
 import AppLoading from 'expo-app-loading';
 import { ThemeProvider } from 'styled-components';
-import { NavigationContainer } from '@react-navigation/native';
+import { Routes } from './src/routes';
 import { AppRoutes } from './src/routes/app.routes';
 
 import { SignIn } from './src/screens/SignIn';
@@ -42,14 +42,12 @@ export default function App() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <ThemeProvider theme={theme}>
-        <NavigationContainer>
-          {/* backgroundColor="transparent" translucent necessarios para funcionar no android */}
-          <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
+        {/* backgroundColor="transparent" translucent necessarios para funcionar no android */}
+        <StatusBar barStyle="light-content" backgroundColor="transparent" translucent />
 
-          <AuthProvider>
-            <SignIn />
-          </AuthProvider>
-        </NavigationContainer>
+        <AuthProvider>
+          <Routes />
+        </AuthProvider>
       </ThemeProvider>
     </GestureHandlerRootView>
   );

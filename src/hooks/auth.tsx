@@ -1,4 +1,4 @@
-import React, { createContext, ReactNode, useContext, useState } from 'react';
+import React, { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 import * as AuthSession from 'expo-auth-session';
 import * as AppleAuthentication from 'expo-apple-authentication';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -34,6 +34,24 @@ const AuthContext = createContext({} as AuthContextData);
 
 function AuthProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<User>({} as User);
+  const [userStorageLoading, setUserStorageLoading] = useState(true);
+
+  const userStorageKey = '@myfinances:user';
+
+  useEffect(() => {
+    async function loadUserStorageData() {
+      const userStorage = await AsyncStorage.getItem(userStorageKey);
+
+      if(userStorage) {
+        const userLogged = JSON.parse(userStorage) as User;
+        setUser(userLogged);
+      }
+
+      setUserStorageLoading(false)
+    }
+
+    loadUserStorageData();
+  }, [])
 
   async function signInWithGoogle() {
     try {
@@ -58,7 +76,7 @@ function AuthProvider({ children }: AuthProviderProps) {
           name: userinfo.given_name,
           photo: userinfo.picture,
         });
-        await AsyncStorage.setItem('@myfinances:user', JSON.stringify(user));
+        await AsyncStorage.setItem(userStorageKey, JSON.stringify(user));
       }
     } catch (error) {
       throw new Error(error as string);
@@ -81,7 +99,7 @@ function AuthProvider({ children }: AuthProviderProps) {
           name: credential.fullName!.givenName!,
           photo: undefined,
         });
-        await AsyncStorage.setItem('@myfinances:user', JSON.stringify(user));
+        await AsyncStorage.setItem(userStorageKey, JSON.stringify(user));
       }
 
     } catch (error) {

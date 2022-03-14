@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Alert } from 'react-native';
 import { RFValue } from 'react-native-responsive-fontsize';
 
@@ -37,7 +37,7 @@ export function SignIn() {
       await signInWithApple();
     } catch (error) {
       console.log(error);
-      Alert.alert('Não foi possivel conectar a conta Google');
+      Alert.alert('Não foi possivel conectar a conta Apple');
     }
   }
 
