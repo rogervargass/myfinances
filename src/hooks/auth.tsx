@@ -34,10 +34,11 @@ function AuthProvider({ children }: AuthProviderProps) {
 
   async function signInWithGoogle() {
     try {
+      const baseUrl = 'https://accounts.google.com/o/oauth2/v2/';
       const RESPONSE_TYPE = 'token';
       const SCOPE = encodeURI('profile email');
 
-      const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_ID}&response_type=${RESPONSE_TYPE}&scope=${SCOPE}`;
+      const authUrl = `${baseUrl}auth?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_ID}&response_type=${RESPONSE_TYPE}&scope=${SCOPE}`;
 
       const { type, params } = (await AuthSession.startAsync({ authUrl })) as AuthorizationResponse;
 
