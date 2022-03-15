@@ -48,15 +48,19 @@ export function Dashboard() {
   const [highlightData, setHighlightData] = useState<HighlightData>({} as HighlightData);
 
   const theme = useTheme();
-  const { signOut, user } = useAuth()
+  const { signOut, user } = useAuth();
 
   function getLastTransactionDate(colletion: DataListProps[], type: 'positive' | 'negative') {
+    const collectionFilttered = colletion.filter((transaction) => transaction.type === type);
+
+    if (collectionFilttered.length === 0) {
+      return 0;
+    }
+
     const lastTransaction = new Date(
       Math.max.apply(
         Math,
-        colletion
-          .filter((transaction) => transaction.type === type)
-          .map((transaction) => new Date(transaction.date).getTime())
+        collectionFilttered.map((transaction) => new Date(transaction.date).getTime())
       )
     );
 
@@ -115,11 +119,17 @@ export function Dashboard() {
     setHighlightData({
       entries: {
         amount: entriesTotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }),
-        lastTransaction: `Última entrada dia ${lastTransactionsEntries}`,
+        lastTransaction:
+          lastTransactionsEntries === 0
+            ? 'Não há trasações'
+            : `Última entrada dia ${lastTransactionsEntries}`,
       },
       expensives: {
         amount: expensiveTotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }),
-        lastTransaction: `Última entrada dia ${lastTransactionsExpensives}`,
+        lastTransaction:
+          lastTransactionsExpensives === 0
+            ? 'Não há trasações'
+            : `Última saída dia ${lastTransactionsExpensives}`,
       },
       total: {
         amount: total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }),
