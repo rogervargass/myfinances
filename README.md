@@ -8,7 +8,12 @@
 ![Bitbucket open issues](https://img.shields.io/bitbucket/issues/iuricode/README-template?style=for-the-badge)
 ![Bitbucket open pull requests](https://img.shields.io/bitbucket/pr-raw/iuricode/README-template?style=for-the-badge)
 
-<img src="exemplo-image.png" alt="exemplo imagem">
+<div>
+  <img src="src\assets\to_readme\primeiro.gif" alt="exemplo imagem">
+  <img src="src\assets\to_readme\segundo.gif" alt="exemplo imagem">
+</div>
+
+
 
 > O projeto tem como objetivo o controle financeiro mensal do usuario, demonstrando seus ganhos e gastos de uma maneira amigavel.
 
