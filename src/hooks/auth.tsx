@@ -51,7 +51,6 @@ function AuthProvider({ children }: AuthProviderProps) {
 
       setUserStorageLoading(false);
     }
-    console.log(user)
     loadUserStorageData();
   }, []);
 
