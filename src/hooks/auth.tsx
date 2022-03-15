@@ -21,6 +21,8 @@ interface AuthContextData {
   user: User;
   signInWithGoogle(): Promise<void>;
   signInWithApple(): Promise<void>;
+  signOut(): Promise<void>;
+  userStorageLoading: boolean;
 }
 
 interface AuthorizationResponse {
@@ -42,16 +44,16 @@ function AuthProvider({ children }: AuthProviderProps) {
     async function loadUserStorageData() {
       const userStorage = await AsyncStorage.getItem(userStorageKey);
 
-      if(userStorage) {
+      if (userStorage) {
         const userLogged = JSON.parse(userStorage) as User;
         setUser(userLogged);
       }
 
-      setUserStorageLoading(false)
+      setUserStorageLoading(false);
     }
-
+    console.log(user)
     loadUserStorageData();
-  }, [])
+  }, []);
 
   async function signInWithGoogle() {
     try {
@@ -64,19 +66,21 @@ function AuthProvider({ children }: AuthProviderProps) {
       const { type, params } = (await AuthSession.startAsync({ authUrl })) as AuthorizationResponse;
 
       if (type === 'success') {
-        const reponse = await fetch(
+        const response = await fetch(
           `https://www.googleapis.com/oauth2/v1/userinfo?alt=json&access_token=${params.access_token}`
         );
 
-        const userinfo = await reponse.json();
+        const userInfo = await response.json();
 
-        setUser({
-          id: userinfo.id,
-          email: userinfo.email,
-          name: userinfo.given_name,
-          photo: userinfo.picture,
-        });
-        await AsyncStorage.setItem(userStorageKey, JSON.stringify(user));
+        const userLoggedIn = {
+          id: userInfo.id,
+          email: userInfo.email,
+          name: userInfo.given_name,
+          photo: userInfo.picture
+        }
+                    
+        setUser(userLoggedIn);
+        AsyncStorage.setItem(userStorageKey, JSON.stringify(userLoggedIn));
       }
     } catch (error) {
       throw new Error(error as string);
@@ -93,21 +97,33 @@ function AuthProvider({ children }: AuthProviderProps) {
       });
 
       if (credential) {
+
+        const name = credential.fullName!.givenName!
+        const photo = `https://ui-avatars.com/api/?name=${name}&length=1`;
+
         setUser({
           id: String(credential.user),
           email: credential.email!,
-          name: credential.fullName!.givenName!,
-          photo: undefined,
+          name,
+          photo,
         });
         await AsyncStorage.setItem(userStorageKey, JSON.stringify(user));
       }
-
     } catch (error) {
       throw new Error(error as string);
     }
   }
 
-  return <AuthContext.Provider value={{ user, signInWithGoogle, signInWithApple }}>{children}</AuthContext.Provider>;
+  async function signOut() {
+    setUser({} as User);
+    await AsyncStorage.removeItem(userStorageKey);
+  }
+
+  return (
+    <AuthContext.Provider value={{ user, signInWithGoogle, signInWithApple, signOut, userStorageLoading }}>
+      {children}
+    </AuthContext.Provider>
+  );
 }
 
 function useAuth() {
