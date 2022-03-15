@@ -24,6 +24,7 @@ import {
 } from './styles';
 import { categories } from '../../utils/categories';
 import { useFocusEffect } from '@react-navigation/native';
+import { useAuth } from '../../hooks/auth';
 
 interface TransactionData {
   type: 'positive' | 'negative';
@@ -47,6 +48,8 @@ export function Resume() {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [totalByCategories, setTotalByCategories] = useState<CategoryData[]>([]);
 
+  const { user } = useAuth()
+
   const theme = useTheme();
 
   function handleDateChange(action: 'next' | 'prev') {
@@ -59,7 +62,7 @@ export function Resume() {
 
   async function loadData() {
     setIsLoading(true);
-    const dataKey = '@myfinances:transactions';
+    const dataKey = `@myfinances:transactions_user:${user.id}`;
     const response = await AsyncStorage.getItem(dataKey);
     const responseFormatted = response ? JSON.parse(response) : [];
 
