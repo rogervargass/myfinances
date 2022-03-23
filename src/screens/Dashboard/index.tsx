@@ -121,14 +121,14 @@ export function Dashboard() {
         amount: entriesTotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }),
         lastTransaction:
           lastTransactionsEntries === 0
-            ? 'Não há trasações'
+            ? 'Não há transações'
             : `Última entrada dia ${lastTransactionsEntries}`,
       },
       expenses: {
         amount: expensiveTotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }),
         lastTransaction:
           lastTransactionsExpenses === 0
-            ? 'Não há trasações'
+            ? 'Não há transações'
             : `Última saída dia ${lastTransactionsExpenses}`,
       },
       total: {
@@ -184,7 +184,7 @@ export function Dashboard() {
             />
             <HighlightCard
               type="down"
-              title="Saidas"
+              title="Saídas"
               amount={highlightData.expenses.amount}
               lastTransaction={highlightData.expenses.lastTransaction}
             />

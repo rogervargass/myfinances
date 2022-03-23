@@ -28,7 +28,7 @@ type NavigationProps = {
 const schema = Yup.object().shape({
   name: Yup.string().required('Nome é obrigatório'),
   amount: Yup.number()
-    .typeError('Informe um valor númerico')
+    .typeError('Informe um valor numérico')
     .positive('O valor não pode ser negativo')
     .required('Valor é obrigatório'),
 });
@@ -101,7 +101,7 @@ export function Register() {
       navigation.navigate('Listagem');
     } catch (error) {
       console.log(error);
-      Alert.alert('Não foi possivel salvar');
+      Alert.alert('Não foi possível salvar');
     }
   }
 
