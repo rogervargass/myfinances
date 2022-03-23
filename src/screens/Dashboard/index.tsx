@@ -38,29 +38,29 @@ interface HighlightDataProps {
 
 interface HighlightData {
   entries: HighlightDataProps;
-  expensives: HighlightDataProps;
+  expenses: HighlightDataProps;
   total: HighlightDataProps;
 }
 
 export function Dashboard() {
   const [isLoading, setIsLoading] = useState(true);
-  const [transactions, setTrasactions] = useState<DataListProps[]>([]);
+  const [transactions, setTransactions] = useState<DataListProps[]>([]);
   const [highlightData, setHighlightData] = useState<HighlightData>({} as HighlightData);
 
   const theme = useTheme();
   const { signOut, user } = useAuth();
 
-  function getLastTransactionDate(colletion: DataListProps[], type: 'positive' | 'negative') {
-    const collectionFilttered = colletion.filter((transaction) => transaction.type === type);
+  function getLastTransactionDate(collection: DataListProps[], type: 'positive' | 'negative') {
+    const collectionFiltered = collection.filter((transaction) => transaction.type === type);
 
-    if (collectionFilttered.length === 0) {
+    if (collectionFiltered.length === 0) {
       return 0;
     }
 
     const lastTransaction = new Date(
       Math.max.apply(
         Math,
-        collectionFilttered.map((transaction) => new Date(transaction.date).getTime())
+        collectionFiltered.map((transaction) => new Date(transaction.date).getTime())
       )
     );
 
@@ -110,11 +110,11 @@ export function Dashboard() {
 
     const total = entriesTotal - expensiveTotal;
 
-    setTrasactions(transactionsFormatted);
+    setTransactions(transactionsFormatted);
 
     const lastTransactionsEntries = getLastTransactionDate(transactions, 'positive');
-    const lastTransactionsExpensives = getLastTransactionDate(transactions, 'negative');
-    const totalInterval = `01 a ${lastTransactionsExpensives}`;
+    const lastTransactionsExpenses = getLastTransactionDate(transactions, 'negative');
+    const totalInterval = `01 a ${lastTransactionsExpenses}`;
 
     setHighlightData({
       entries: {
@@ -124,12 +124,12 @@ export function Dashboard() {
             ? 'Não há trasações'
             : `Última entrada dia ${lastTransactionsEntries}`,
       },
-      expensives: {
+      expenses: {
         amount: expensiveTotal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }),
         lastTransaction:
-          lastTransactionsExpensives === 0
+          lastTransactionsExpenses === 0
             ? 'Não há trasações'
-            : `Última saída dia ${lastTransactionsExpensives}`,
+            : `Última saída dia ${lastTransactionsExpenses}`,
       },
       total: {
         amount: total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }),
@@ -185,8 +185,8 @@ export function Dashboard() {
             <HighlightCard
               type="down"
               title="Saidas"
-              amount={highlightData.expensives.amount}
-              lastTransaction={highlightData.expensives.lastTransaction}
+              amount={highlightData.expenses.amount}
+              lastTransaction={highlightData.expenses.lastTransaction}
             />
             <HighlightCard
               type="total"

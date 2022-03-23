@@ -66,15 +66,15 @@ export function Resume() {
     const response = await AsyncStorage.getItem(dataKey);
     const responseFormatted = response ? JSON.parse(response) : [];
 
-    const expensives = responseFormatted.filter(
+    const expenses = responseFormatted.filter(
       (expensive: TransactionData) =>
         expensive.type === 'negative' &&
         new Date(expensive.date).getMonth() === selectedDate.getMonth() &&
         new Date(expensive.date).getFullYear() === selectedDate.getFullYear()
     );
 
-    const expensivesTotal = expensives.reduce((acumulator: number, expensive: TransactionData) => {
-      return acumulator + Number(expensive.amount);
+    const expensesTotal = expenses.reduce((accumulator: number, expensive: TransactionData) => {
+      return accumulator + Number(expensive.amount);
     }, 0);
 
     const totalByCategory: CategoryData[] = [];
@@ -82,7 +82,7 @@ export function Resume() {
     categories.forEach((category) => {
       let categorySum = 0;
 
-      expensives.forEach((expensive: TransactionData) => {
+      expenses.forEach((expensive: TransactionData) => {
         if (expensive.category === category.key) {
           categorySum += Number(expensive.amount);
         }
@@ -94,7 +94,7 @@ export function Resume() {
           currency: 'BRL',
         });
 
-        const percent = `${((categorySum / expensivesTotal) * 100).toFixed(0)}%`;
+        const percent = `${((categorySum / expensesTotal) * 100).toFixed(0)}%`;
 
         totalByCategory.push({
           key: category.key,
