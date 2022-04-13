@@ -17,7 +17,7 @@ export const Container = styled.View<TypeProps>`
   margin-right: 16px;
 `;
 
-export const Hearder = styled.View`
+export const Header = styled.View`
   flex-direction: row;
   justify-content: space-between;
 `;
